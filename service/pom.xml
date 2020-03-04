@@ -37,12 +37,28 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
-		</dependency> -->
+		</dependency>
+
+		<!--  As you add below dependency (spring-boot-starter-security) and boot the application, this will show 
+		Using generated security password: 9aab9a81-96da-49cb-97c3-f550dd730449	
+		By adding this dependency, postman client or other ui client will no longer to able to access the services.
+		-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 		
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

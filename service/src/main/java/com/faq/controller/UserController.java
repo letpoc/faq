@@ -14,29 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.faq.entity.UserEntity;
 import com.faq.service.UserService;
 import com.faq.shared.dto.UserDto;
-import com.faq.ui.model.request.UserModelRequest;
-import com.faq.ui.model.response.UserModelResponse;
+import com.faq.ui.model.request.UserSignUpModelRequest;
+import com.faq.ui.model.response.UserSignUpModelResponse;
 
 @RestController
 @RequestMapping(value="users")
 public class UserController {
 	
 	@Autowired
-	UserService userService;
-	
-	@GetMapping
-	public String getUser() {
-		return "user List"; 
-	}
+	UserService userService;	
 	
 	@PostMapping
-	public UserModelResponse createUser(@RequestBody UserModelRequest userModelRequest) {
+	public UserSignUpModelResponse createUser(@RequestBody UserSignUpModelRequest userModelRequest) {
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userModelRequest, userDto);
 		
 		 UserDto createUser = userService.createUser(userDto);
 		
-		 UserModelResponse userModelResponse = new UserModelResponse();
+		 UserSignUpModelResponse userModelResponse = new UserSignUpModelResponse();
 		 BeanUtils.copyProperties(createUser, userModelResponse);
 		 
 		 return userModelResponse;

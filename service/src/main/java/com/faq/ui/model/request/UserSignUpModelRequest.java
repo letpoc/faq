@@ -1,11 +1,13 @@
 package com.faq.ui.model.request;
 
-public class UserModelRequest {
+public class UserSignUpModelRequest {
 	
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
+	private int roll;
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -29,6 +31,12 @@ public class UserModelRequest {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public int getRoll() {
+		return roll;
+	}
+	public void setRoll(int roll) {
+		this.roll = roll; 
 	}
 	
 	

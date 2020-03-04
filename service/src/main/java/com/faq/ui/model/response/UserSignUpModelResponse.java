@@ -1,11 +1,12 @@
 package com.faq.ui.model.response;
 
-public class UserModelResponse {
+public class UserSignUpModelResponse {
 	
 	private String userId;
 	private String firstName;
 	private String lastName;
 	private String email;
+	private int roll;
 	public String getUserId() {
 		return userId;
 	}
@@ -29,6 +30,12 @@ public class UserModelResponse {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public int getRoll() {
+		return roll;
+	}
+	public void setRoll(int roll) {
+		this.roll = roll;
 	}
 	
 	

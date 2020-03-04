@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="user")
+@Table(name="users")
 public class UserEntity implements Serializable {
 
 	private static final long serialVersionUID = 4337580642037640598L;
@@ -18,7 +18,7 @@ public class UserEntity implements Serializable {
 	@GeneratedValue
 	private long id;
 	
-	@Column(nullable=false, length=100)
+	@Column(nullable=false, length=30)
 	private String userId;
 	
 	@Column(nullable=false, length=50)
@@ -34,6 +34,16 @@ public class UserEntity implements Serializable {
 	private String encryptPassword;
 	private String emailVerificationTokan;	
 	private boolean emailVerificationStatus;
+	
+	@Column(nullable=false, length=100)
+	private int roll;
+	
+	public int getRoll() {
+		return roll;
+	}
+	public void setRoll(int roll) {
+		this.roll = roll;
+	}
 	public long getId() {
 		return id;
 	}
