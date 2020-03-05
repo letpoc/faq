@@ -10,9 +10,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>service</groupId>
+	<groupId>com.faq</groupId>
 	<artifactId>service</artifactId>
-	<!-- <version>0.0.1-SNAPSHOT</version> -->
+	<version>0.0.1-SNAPSHOT</version>
 	<name>faq</name>
 	<description>FAQ Service</description>
 	<packaging>jar</packaging>

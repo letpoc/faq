@@ -1,6 +1,6 @@
 package com.faq.service.impl;
 
-import java.util.ArrayList;
+
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto createUser(UserDto user) throws RuntimeException {
 		
-		UserEntity getUserByEmail = userRepository.findByEmail(user.getEmail());
+		UserEntity getUserByEmail = userRepository.findByFirstName(user.getFirstName());
 		
 		if(getUserByEmail != null) throw new RuntimeException("The user with this email id is already exists.");
 		

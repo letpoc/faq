@@ -7,5 +7,5 @@ import com.faq.entity.UserEntity;
 
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
-	UserEntity findByEmail(String email);
+	UserEntity findByFirstName(String firstName);
 }
