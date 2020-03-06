@@ -24,6 +24,11 @@ public class UserController {
 	@Autowired
 	UserService userService;	
 	
+	@GetMapping
+	public String getUser() {
+		return "Get user called";
+	}
+	
 	@PostMapping
 	public UserSignUpModelResponse createUser(@RequestBody UserSignUpModelRequest userModelRequest) {
 		UserDto userDto = new UserDto();

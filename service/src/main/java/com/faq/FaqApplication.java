@@ -17,4 +17,8 @@ public class FaqApplication {
 	@Bean BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Bean SpringApplicationContext springApplicationContext() {
+		return new SpringApplicationContext();
+	}
 }
