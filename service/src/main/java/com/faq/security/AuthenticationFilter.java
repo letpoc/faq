@@ -9,19 +9,24 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.faq.SpringApplicationContext;
+import com.faq.exceptions.UserServiceException;
 import com.faq.service.UserService;
 import com.faq.shared.dto.UserDto;
 import com.faq.ui.model.request.UserLoginRequestModel;
 import com.faq.ui.model.response.UserDetailsResponseModel;
+import com.faq.ui.model.response.UserErrorMessages;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Jwts;
@@ -30,23 +35,23 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private final AuthenticationManager authenticationManager;
 
-	public AuthenticationFilter(AuthenticationManager authenticationManager) {
+	
 
+	public AuthenticationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
 	}
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
-			throws AuthenticationException {
-
-		try {
-			UserLoginRequestModel creds = new ObjectMapper().readValue(req.getInputStream(),
-					UserLoginRequestModel.class);
-			return authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>()));
+			throws AuthenticationException {		
+		try {					
+			UserLoginRequestModel creds = new ObjectMapper().readValue(req.getInputStream(), UserLoginRequestModel.class);
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>());
+			setDetails(req, token);
+			return authenticationManager.authenticate(token);
 		} catch (IOException e) {
-			
-			throw new RuntimeException(e);
+			//UserServiceException ex = new UserServiceException("Bad Request");
+			throw new UserServiceException(req.getServerName());
 		}
 	}
 
@@ -59,11 +64,21 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 				.signWith(SignatureAlgorithm.HS512, SecurityConstants.getSecretToken()).compact();
 
 		UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
-		UserDto userDto = userService.getUser(userName);
+		UserDto userDto = userService.getUserByEmail(userName);
 		UserDetailsResponseModel userResponse = new UserDetailsResponseModel();
 		BeanUtils.copyProperties(userDto, userResponse);
 		res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
-		res.addHeader("UserDetails", userResponse.toString());		
+		res.addHeader("UserDetails", userResponse.toString());
+		res.getWriter().write(userResponse.toString());
+	}
+	
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request,
+			HttpServletResponse response, AuthenticationException failed)
+			throws IOException, ServletException {
+		SecurityContextHolder.clearContext();
+		
+		response.getWriter().write(response.toString());
 	}
 
 }

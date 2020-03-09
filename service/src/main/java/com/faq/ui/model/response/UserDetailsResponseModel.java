@@ -52,8 +52,8 @@ public class UserDetailsResponseModel {
 
 	@Override
 	public String toString() {
-		return "{userId=\"" + userId + "\", firstName=\"" + firstName + "\", lastName=\"" + lastName + "\", email=\"" + email
-				+ "\", roll=\"" + roll + "\"}";
+		return "{\"userId\":\"" + userId + "\", \"firstName\":\"" + firstName + "\", \"lastName\":\"" + lastName + "\", \"email\":\"" + email
+				+ "\", \"roll\":\"" + roll + "\"}";
 	}
 	
 	

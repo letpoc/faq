@@ -14,8 +14,8 @@ import com.faq.service.UserService;
 import com.faq.shared.dto.UserDto;
 import com.faq.ui.model.request.UserSignUpRequestModel;
 import com.faq.ui.model.response.UserDetailsResponseModel;
+import com.faq.ui.model.response.UserErrorMessages;
 import com.faq.ui.model.response.UserSignUpResponseModel;
-import com.faq.utils.UserErrorMessages;
 import com.faq.validators.input.UserInputValidator;
 
 @RestController
@@ -34,8 +34,18 @@ public class UserController {
 	}
 
 	@PostMapping
-	public UserSignUpResponseModel createUser(@RequestBody UserSignUpRequestModel userModelRequest) throws Exception {
+	public UserSignUpResponseModel createUser(@RequestBody UserSignUpRequestModel userModelRequest) throws Exception {		
 		UserInputValidator.SignUp(userModelRequest);
+		if(!userService.isUserRecordEmpty()) {
+			try {
+				if(userService.getUserByEmail(userModelRequest.getEmail()) != null) { 
+					throw new UserServiceException(UserErrorMessages.RECORD_ALREADY_EXISTS.getErrorMessage());
+				}
+			} catch(Exception e) {
+				
+			}
+			
+		}
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userModelRequest, userDto);
 		UserDto createUser = userService.createUser(userDto);

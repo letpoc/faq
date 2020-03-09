@@ -1,4 +1,4 @@
-package com.faq.utils;
+package com.faq.ui.model.response;
 
 public enum UserErrorMessages {
 	
@@ -19,7 +19,7 @@ public enum UserErrorMessages {
 	REQUIRED_PASSWORD_PATTERN("Password must included atleast 1 uppercase character, 1 numeric value and 1 special character"),
 	
 	MISSING_REQUIRED_FIELD("Missing required field. Please check documentation for the required fields"),
-	RECORD_ALREADY_EXISTS("Record already exists"),
+	RECORD_ALREADY_EXISTS("This email ID is already exist"),
 	INTERNAL_SERVER_ERROR("Internal server error"),
 	NO_RECORD_FOUND("No record found"),
 	AUTHENTICATION_FAILED("Authentication failed"),

@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 import com.faq.exceptions.UserServiceException;
 import com.faq.ui.model.request.UserSignUpRequestModel;
+import com.faq.ui.model.response.UserErrorMessages;
 import com.faq.utils.MatchStringPattern;
-import com.faq.utils.UserErrorMessages;
 
 import antlr.collections.List;
 
