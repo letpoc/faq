@@ -43,15 +43,26 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!--  As you add below dependency (spring-boot-starter-security) and boot the application, this will show 
-		Using generated security password: 9aab9a81-96da-49cb-97c3-f550dd730449	
-		By adding this dependency, postman client or other ui client will no longer to able to access the services.
-		-->
+		<!-- As you add below dependency (spring-boot-starter-security) and boot 
+			the application, this will show Using generated security password: 9aab9a81-96da-49cb-97c3-f550dd730449 
+			By adding this dependency, postman client or other ui client will no longer 
+			to able to access the services. -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		
+
+		<!-- used this dependency for sending servlet response as json -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>			
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>

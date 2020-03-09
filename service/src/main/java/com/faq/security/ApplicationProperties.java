@@ -14,5 +14,9 @@ public class ApplicationProperties {
 		return env.getProperty("secretToken");
 	}
 	
+	public int getExpirationTime() {
+		return Integer.parseInt((env.getProperty("expirationTime")));
+	}
+	
 	
 }

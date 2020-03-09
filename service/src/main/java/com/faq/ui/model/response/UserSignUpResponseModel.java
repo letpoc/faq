@@ -1,6 +1,6 @@
 package com.faq.ui.model.response;
 
-public class UserSignUpModelResponse {
+public class UserSignUpResponseModel {
 	
 	private String userId;
 	private String firstName;

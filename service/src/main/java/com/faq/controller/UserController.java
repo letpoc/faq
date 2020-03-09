@@ -1,7 +1,5 @@
 package com.faq.controller;
 
-import java.util.List;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,35 +9,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.faq.entity.UserEntity;
+import com.faq.exceptions.UserServiceException;
 import com.faq.service.UserService;
 import com.faq.shared.dto.UserDto;
-import com.faq.ui.model.request.UserSignUpModelRequest;
-import com.faq.ui.model.response.UserSignUpModelResponse;
+import com.faq.ui.model.request.UserSignUpRequestModel;
+import com.faq.ui.model.response.UserDetailsResponseModel;
+import com.faq.ui.model.response.UserSignUpResponseModel;
+import com.faq.utils.UserErrorMessages;
+import com.faq.validators.input.UserInputValidator;
 
 @RestController
-@RequestMapping(value="users")
+@RequestMapping(value = "users")
 public class UserController {
-	
+
 	@Autowired
-	UserService userService;	
-	
-	@GetMapping
-	public String getUser() {
-		return "Get user called";
+	UserService userService;
+
+	@GetMapping(path = "/{userId}")
+	public UserDetailsResponseModel getUser(@PathVariable String userId) {
+		UserDetailsResponseModel userDetails = new UserDetailsResponseModel();
+		UserDto userDto = userService.getUserByUserId(userId);
+		BeanUtils.copyProperties(userDto, userDetails);
+		return userDetails;
 	}
-	
+
 	@PostMapping
-	public UserSignUpModelResponse createUser(@RequestBody UserSignUpModelRequest userModelRequest) {
+	public UserSignUpResponseModel createUser(@RequestBody UserSignUpRequestModel userModelRequest) throws Exception {
+		UserInputValidator.SignUp(userModelRequest);
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userModelRequest, userDto);
-		
-		 UserDto createUser = userService.createUser(userDto);
-		
-		 UserSignUpModelResponse userModelResponse = new UserSignUpModelResponse();
-		 BeanUtils.copyProperties(createUser, userModelResponse);
-		 
-		 return userModelResponse;
+		UserDto createUser = userService.createUser(userDto);
+		UserSignUpResponseModel userModelResponse = new UserSignUpResponseModel();
+		BeanUtils.copyProperties(createUser, userModelResponse);
+		return userModelResponse;
 	}
 
 }

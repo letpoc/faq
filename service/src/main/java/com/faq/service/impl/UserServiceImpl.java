@@ -11,10 +11,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.faq.entity.UserEntity;
+import com.faq.exceptions.UserServiceException;
 import com.faq.repository.UserRepository;
 import com.faq.service.UserService;
 import com.faq.shared.Utils;
 import com.faq.shared.dto.UserDto;
+import com.faq.utils.UserErrorMessages;
+
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,11 +33,11 @@ public class UserServiceImpl implements UserService {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public UserDto createUser(UserDto user) throws RuntimeException {
+	public UserDto createUser(UserDto user)  {
 		
-		UserEntity getUserByEmail = userRepository.findByEmail(user.getEmail());
 		
-		if(getUserByEmail != null) throw new RuntimeException("The user with this email id is already exists.");
+		
+		
 		
 		UserEntity userEntity = new UserEntity();	
 		
@@ -68,6 +72,16 @@ public class UserServiceImpl implements UserService {
 		UserDto responseDto = new UserDto();
 		BeanUtils.copyProperties(userEntity, responseDto);
 		return responseDto;
+	}
+
+	@Override
+	public UserDto getUserByUserId(String userId) {
+		UserEntity userEntity = userRepository.findByUserId(userId);
+		if(userEntity == null) throw new UsernameNotFoundException(userId);
+		UserDto userDto = new UserDto();
+		BeanUtils.copyProperties(userEntity, userDto);
+		
+		return userDto;
 	}
 
 	

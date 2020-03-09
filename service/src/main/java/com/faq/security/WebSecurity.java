@@ -1,5 +1,7 @@
 package com.faq.security;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -7,9 +9,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import com.faq.service.UserService;
 
+@Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
@@ -25,6 +29,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL)
 		.permitAll().anyRequest().authenticated().and()
+		.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).and()
 		.addFilter(getAuthenticationFilter())
 		.addFilter(new AuthorizationFilter(authenticationManager()))
 		.sessionManagement()
@@ -41,4 +46,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		filter.setFilterProcessesUrl("/users/login");
 		return filter;
 	}
+	
+	@Bean
+    public AuthenticationEntryPoint authenticationEntryPoint(){
+        return new AppAuthenticationEntryPoint();
+    }
 }
