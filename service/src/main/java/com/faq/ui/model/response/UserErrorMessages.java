@@ -22,10 +22,11 @@ public enum UserErrorMessages {
 	RECORD_ALREADY_EXISTS("This email ID is already exist"),
 	INTERNAL_SERVER_ERROR("Internal server error"),
 	NO_RECORD_FOUND("No record found"),
-	AUTHENTICATION_FAILED("Authentication failed"),
+	AUTHENTICATION_FAILED("Authetication failed: User ID is not correct"),
 	COULD_NOT_UPDATE_RECORD("Could not update record"),
 	COULD_NOT_DELETE_RECORD("Could not delete record"),
-	EMAIL_ADDRESS_NOT_VERIFIED("Email address not verified");
+	EMAIL_ADDRESS_NOT_VERIFIED("Email address not verified"),
+	NO_RECORD_FOUND_SIGN_IN("Either email/password is incorrect or this account does not exist");
 	
 	private String errorMessage;
 	UserErrorMessages(String errorMessage) {

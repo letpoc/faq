@@ -27,8 +27,6 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepository userRepository;
 	
-	@Autowired
-	Utils utils;
 	
 	@Autowired
 	BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	public UserDto createUser(UserDto user)  {		
 		UserEntity userEntity = new UserEntity();		
 		user.setEncryptPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		String publicUserId = utils.generateUserId(30);
+		String publicUserId = Utils.generateUserId(30);
 		user.setUserId(publicUserId);
 		user.setRoll(1);
 		BeanUtils.copyProperties(user, userEntity);		
@@ -55,18 +53,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto getUserByEmail(String email) {
+	public UserDto getUserByEmail(String email) {				
 		UserEntity userEntity = userRepository.findByEmail(email);
-		// if(userEntity == null) throw new UsernameNotFoundException(email);
-		UserDto responseDto = new UserDto();
-		BeanUtils.copyProperties(userEntity, responseDto);
-		return responseDto;
+		if(userEntity == null) return null;
+		UserDto userDto	 = new UserDto();
+		BeanUtils.copyProperties(userEntity, userDto);
+		return userDto;
 	}
 
 	@Override
-	public UserDto getUserByUserId(String userId) {
-		UserEntity userEntity = userRepository.findByUserId(userId);
-		// if(userEntity == null) throw new UsernameNotFoundException(userId);
+	public UserDto getUserByUserId(String userId) {		
+		UserEntity userEntity = userRepository.findByUserId(userId);	
+		if(userEntity == null) return null;
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userEntity, userDto);		
 		return userDto;

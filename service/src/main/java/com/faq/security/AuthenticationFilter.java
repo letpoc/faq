@@ -28,14 +28,13 @@ import com.faq.ui.model.request.UserLoginRequestModel;
 import com.faq.ui.model.response.UserDetailsResponseModel;
 import com.faq.ui.model.response.UserErrorMessages;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-	private final AuthenticationManager authenticationManager;
-
-	
+	private final AuthenticationManager authenticationManager;	
 
 	public AuthenticationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
@@ -76,9 +75,15 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	protected void unsuccessfulAuthentication(HttpServletRequest request,
 			HttpServletResponse response, AuthenticationException failed)
 			throws IOException, ServletException {
+		JsonObject json = new JsonObject();
+		json.addProperty("status", 403);
+		json.addProperty("statusCode", "error");
+		json.addProperty("error", failed.getMessage());
+		json.addProperty("message", UserErrorMessages.NO_RECORD_FOUND_SIGN_IN.getErrorMessage());
+		
 		SecurityContextHolder.clearContext();
 		
-		response.getWriter().write(response.toString());
+		response.getWriter().write(json.toString());
 	}
 
 }
