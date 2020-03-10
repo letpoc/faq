@@ -38,7 +38,7 @@ public class UserInputValidator {
 			throw new UserServiceException(UserErrorMessages.REQUIRED_EMAIL_FIELD.getErrorMessage());
 		if (email.isEmpty())
 			throw new UserServiceException(UserErrorMessages.REQUIRED_EMAIL_VALUE.getErrorMessage());
-		if (!Utils.forEmail(email))
+		if (!Utils.CheckEmailPattern(email))
 			throw new UserServiceException(UserErrorMessages.REQUIRED_EMAIL_PATTERN.getErrorMessage());
 	}
 	
@@ -47,7 +47,7 @@ public class UserInputValidator {
 			throw new UserServiceException(UserErrorMessages.REQUIRED_PASSWORD_FIELD.getErrorMessage());
 		if (pwd.isEmpty())
 			throw new UserServiceException(UserErrorMessages.REQUIRED_PASSWORD_VALUE.getErrorMessage());
-		if (!Utils.forPassword(pwd))
+		if (!Utils.CheckPasswordPattern(pwd))
 			throw new UserServiceException(UserErrorMessages.REQUIRED_PASSWORD_PATTERN.getErrorMessage());
 	}
 

@@ -26,7 +26,8 @@ public enum UserErrorMessages {
 	COULD_NOT_UPDATE_RECORD("Could not update record"),
 	COULD_NOT_DELETE_RECORD("Could not delete record"),
 	EMAIL_ADDRESS_NOT_VERIFIED("Email address not verified"),
-	NO_RECORD_FOUND_SIGN_IN("Either email/password is incorrect or this account does not exist");
+	NO_RECORD_FOUND_SIGN_IN("Either email/password is incorrect or this account does not exist"),
+	EMAIL_VERIFICATION_ALREADY_VERIFIED("Verification verification already verified");
 	
 	private String errorMessage;
 	UserErrorMessages(String errorMessage) {

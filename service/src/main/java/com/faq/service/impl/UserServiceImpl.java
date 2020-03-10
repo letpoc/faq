@@ -32,12 +32,16 @@ public class UserServiceImpl implements UserService {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public UserDto createUser(UserDto user)  {		
-		UserEntity userEntity = new UserEntity();		
+	public UserDto createUser(UserDto user)  {
+		
 		user.setEncryptPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		String publicUserId = Utils.generateUserId(30);
-		user.setUserId(publicUserId);
+		user.setUserId(Utils.generateUserId(30));
 		user.setRole(1);
+		user.setEmailVerificationToken(Utils.generateRandomString(30));
+		user.setOrgActive("false");
+		user.setOrgDisable("false");
+		user.setEmailVerificationStatus(false);
+		UserEntity userEntity = new UserEntity();		
 		BeanUtils.copyProperties(user, userEntity);		
 		UserEntity createUser = userRepository.save(userEntity);		
 		UserDto responseDto = new UserDto();
@@ -74,6 +78,17 @@ public class UserServiceImpl implements UserService {
 	public boolean isUserRecordEmpty() {
 		return userRepository.findAll().isEmpty();
 	}
+
+	@Override
+	public boolean setEmailVerificationStatus(String userId) {
+		UserEntity userEntity = userRepository.findByUserId(userId);
+		userEntity.setEmailVerificationStatus(true);
+		userRepository.save(userEntity);
+		return true;
+	}
+
+	
+	
 
 	
 
