@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
 		user.setEncryptPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		String publicUserId = Utils.generateUserId(30);
 		user.setUserId(publicUserId);
-		user.setRoll(1);
+		user.setRole(1);
 		BeanUtils.copyProperties(user, userEntity);		
 		UserEntity createUser = userRepository.save(userEntity);		
 		UserDto responseDto = new UserDto();

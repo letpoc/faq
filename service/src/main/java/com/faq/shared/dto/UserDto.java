@@ -14,7 +14,7 @@ public class UserDto implements Serializable {
 	private String encryptPassword;
 	private String emailVerificationToken;
 	private boolean emailVerificationStatus;
-	private int roll;
+	private int role;
 	public String getUserId() {
 		return userId;
 	}
@@ -63,12 +63,13 @@ public class UserDto implements Serializable {
 	public void setEmailVerificationStatus(boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
-	public int getRoll() {
-		return roll;
+	public int getRole() {
+		return role;
 	}
-	public void setRoll(int roll) {
-		this.roll = roll;
+	public void setRole(int role) {
+		this.role = role;
 	}
+	
 	
 	
 

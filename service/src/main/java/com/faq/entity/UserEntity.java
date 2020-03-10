@@ -36,14 +36,8 @@ public class UserEntity implements Serializable {
 	private boolean emailVerificationStatus;
 	
 	@Column(nullable=false, length=100)
-	private int roll;
+	private int role;	
 	
-	public int getRoll() {
-		return roll;
-	}
-	public void setRoll(int roll) {
-		this.roll = roll;
-	}
 	public long getId() {
 		return id;
 	}
@@ -91,6 +85,12 @@ public class UserEntity implements Serializable {
 	}
 	public void setEmailVerificationStatus(boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
+	}
+	public int getRole() {
+		return role;
+	}
+	public void setRole(int role) {
+		this.role = role;
 	}
 	
 	

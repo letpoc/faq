@@ -5,7 +5,15 @@ public class UserDetailsResponseModel {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private int roll;
+	private int role;
+
+	public int getRole() {
+		return role;
+	}
+
+	public void setRole(int role) {
+		this.role = role;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -31,17 +39,6 @@ public class UserDetailsResponseModel {
 		this.email = email;
 	}
 	
-
-	public int getRoll() {
-		return roll;
-	}
-
-	public void setRoll(int roll) {
-		this.roll = roll;
-	}
-	
-	
-
 	public String getUserId() {
 		return userId;
 	}
@@ -49,11 +46,13 @@ public class UserDetailsResponseModel {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	
+	
 
 	@Override
 	public String toString() {
 		return "{\"userId\":\"" + userId + "\", \"firstName\":\"" + firstName + "\", \"lastName\":\"" + lastName + "\", \"email\":\"" + email
-				+ "\", \"roll\":\"" + roll + "\"}";
+				+ "\", \"role\":\"" + role + "\"}";
 	}
 	
 	
