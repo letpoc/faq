@@ -29,22 +29,21 @@ public class UserController {
 	public UserDetailsResponseModel getUser(@PathVariable String userId) {
 		UserDetailsResponseModel userDetails = new UserDetailsResponseModel();
 		UserDto userDto = userService.getUserByUserId(userId);
+		if (userDto == null) {
+			throw new UserServiceException(UserErrorMessages.AUTHENTICATION_FAILED.getErrorMessage());
+		}
 		BeanUtils.copyProperties(userDto, userDetails);
 		return userDetails;
 	}
 
 	@PostMapping
-	public UserSignUpResponseModel createUser(@RequestBody UserSignUpRequestModel userModelRequest) throws Exception {		
+	public UserSignUpResponseModel createUser(@RequestBody UserSignUpRequestModel userModelRequest) throws Exception {
 		UserInputValidator.SignUp(userModelRequest);
-		if(!userService.isUserRecordEmpty()) {
-			try {
-				if(userService.getUserByEmail(userModelRequest.getEmail()) != null) { 
-					throw new UserServiceException(UserErrorMessages.RECORD_ALREADY_EXISTS.getErrorMessage());
-				}
-			} catch(Exception e) {
-				
+		if (!userService.isUserRecordEmpty()) {
+			if (userService.getUserByEmail(userModelRequest.getEmail()) != null) {
+				throw new UserServiceException(UserErrorMessages.RECORD_ALREADY_EXISTS.getErrorMessage());
 			}
-			
+
 		}
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userModelRequest, userDto);
