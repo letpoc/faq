@@ -25,6 +25,7 @@ import com.faq.exceptions.UserServiceException;
 import com.faq.service.UserService;
 import com.faq.shared.dto.UserDto;
 import com.faq.ui.model.request.UserLoginRequestModel;
+import com.faq.ui.model.response.ErrorMessageResponseModel;
 import com.faq.ui.model.response.UserDetailsResponseModel;
 import com.faq.ui.model.response.UserErrorMessages;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,15 +76,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	protected void unsuccessfulAuthentication(HttpServletRequest request,
 			HttpServletResponse response, AuthenticationException failed)
 			throws IOException, ServletException {
-		JsonObject json = new JsonObject();
-		json.addProperty("status", 403);
-		json.addProperty("statusCode", "error");
-		json.addProperty("error", failed.getMessage());
-		json.addProperty("message", UserErrorMessages.NO_RECORD_FOUND_SIGN_IN.getErrorMessage());
-		
 		SecurityContextHolder.clearContext();
 		
-		response.getWriter().write(json.toString());
+		ErrorMessageResponseModel error = new ErrorMessageResponseModel(new Date(), failed.getMessage());
+		error.setStatus(403);
+		error.setError("Access Denied");
+		response.getWriter().write(error.toString());
 	}
 
 }

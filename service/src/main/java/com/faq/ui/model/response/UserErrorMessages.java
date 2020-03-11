@@ -18,6 +18,9 @@ public enum UserErrorMessages {
 	REQUIRED_PASSWORD_VALUE("Required email value"),
 	REQUIRED_PASSWORD_PATTERN("Password must included atleast 1 uppercase character, 1 numeric value and 1 special character"),
 	
+	REQUIRED_ORG_NAME_FIELD("Required orgName field"),
+	REQUIRED_ORG_NAME_VALUE("Required orgName value"),
+	
 	MISSING_REQUIRED_FIELD("Missing required field. Please check documentation for the required fields"),
 	RECORD_ALREADY_EXISTS("This email ID is already exist"),
 	INTERNAL_SERVER_ERROR("Internal server error"),

@@ -43,86 +43,111 @@ public class UserEntity implements Serializable {
 	private String orgName;
 	
 	@Column(nullable=false, length=100)
-	private String orgActive = "false";
+	private boolean orgActive;
 	
 	@Column(nullable=false, length=100)
-	private String orgDisable = "false";
+	private boolean orgDisable;
 	
 	@Column(nullable=false, length=100)
-	private int role;	
-	
+	private int role;
+
 	public long getId() {
 		return id;
 	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
+
 	public String getUserId() {
 		return userId;
 	}
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public String getEncryptPassword() {
 		return encryptPassword;
 	}
+
 	public void setEncryptPassword(String encryptPassword) {
 		this.encryptPassword = encryptPassword;
 	}
+
 	public String getEmailVerificationToken() {
 		return emailVerificationToken;
 	}
+
 	public void setEmailVerificationToken(String emailVerificationToken) {
 		this.emailVerificationToken = emailVerificationToken;
 	}
+
 	public boolean isEmailVerificationStatus() {
 		return emailVerificationStatus;
 	}
+
 	public void setEmailVerificationStatus(boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
-	public int getRole() {
-		return role;
-	}
-	public void setRole(int role) {
-		this.role = role;
-	}
+
 	public String getOrgName() {
 		return orgName;
 	}
+
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
 	}
-	public String getOrgActive() {
+
+	public boolean isOrgActive() {
 		return orgActive;
 	}
-	public void setOrgActive(String orgActive) {
+
+	public void setOrgActive(boolean orgActive) {
 		this.orgActive = orgActive;
 	}
-	public String getOrgDisable() {
+
+	public boolean isOrgDisable() {
 		return orgDisable;
 	}
-	public void setOrgDisable(String orgDisable) {
+
+	public void setOrgDisable(boolean orgDisable) {
 		this.orgDisable = orgDisable;
 	}
+
+	public int getRole() {
+		return role;
+	}
+
+	public void setRole(int role) {
+		this.role = role;
+	}	
+	
+	
 	
 	
 	

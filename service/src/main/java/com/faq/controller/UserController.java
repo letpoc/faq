@@ -60,9 +60,9 @@ public class UserController {
 	@GetMapping("/verification/{userId}/{token}")
 	public Object userVerification(@PathVariable("userId") String userId, @PathVariable("token") String token) {
 		UserDto userDto = userService.getUserByUserId(userId);
-		System.out.println(userDto.getEmailVerificationStatus());		
+		System.out.println(userDto.isEmailVerificationStatus());		
 		if (userDto == null) throw new UserServiceException(UserErrorMessages.NO_RECORD_FOUND.getErrorMessage());
-		if (userDto.getEmailVerificationStatus()) throw new UserServiceException(UserErrorMessages.EMAIL_VERIFICATION_ALREADY_VERIFIED.getErrorMessage());
+		if (userDto.isEmailVerificationStatus()) throw new UserServiceException(UserErrorMessages.EMAIL_VERIFICATION_ALREADY_VERIFIED.getErrorMessage());
 		if(userDto.getEmailVerificationToken().equals(token)) {
 			userService.setEmailVerificationStatus(userId);
 			return new SuccessMessageResponseModel("Email verification has been completed successfully");

@@ -16,9 +16,8 @@ public class UserDto implements Serializable {
 	private boolean emailVerificationStatus;
 	private int role;
 	private String orgName;
-	private String orgActive;
-	private String orgDisable;
-	
+	private boolean orgActive;
+	private boolean orgDisable;
 	public String getUserId() {
 		return userId;
 	}
@@ -79,21 +78,20 @@ public class UserDto implements Serializable {
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
 	}
-	public String getOrgActive() {
+	public boolean isOrgActive() {
 		return orgActive;
 	}
-	public void setOrgActive(String orgActive) {
+	public void setOrgActive(boolean orgActive) {
 		this.orgActive = orgActive;
 	}
-	public String getOrgDisable() {
+	public boolean isOrgDisable() {
 		return orgDisable;
 	}
-	public void setOrgDisable(String orgDisable) {
+	public void setOrgDisable(boolean orgDisable) {
 		this.orgDisable = orgDisable;
 	}
-	public boolean getEmailVerificationStatus() {
-		return emailVerificationStatus;
-	}
+	
+	
 	
 	
 	

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.faq.entity.UserEntity;
+import com.faq.exceptions.EmailVerificationException;
 import com.faq.exceptions.UserServiceException;
 import com.faq.repository.UserRepository;
 import com.faq.service.UserService;
@@ -38,8 +40,8 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(Utils.generateUserId(30));
 		user.setRole(1);
 		user.setEmailVerificationToken(Utils.generateRandomString(30));
-		user.setOrgActive("false");
-		user.setOrgDisable("false");
+		user.setOrgActive(false);
+		user.setOrgDisable(false);
 		user.setEmailVerificationStatus(false);
 		UserEntity userEntity = new UserEntity();		
 		BeanUtils.copyProperties(user, userEntity);		
@@ -51,8 +53,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
 		UserEntity userEntity = userRepository.findByEmail(email);
 		if(userEntity == null) throw new UsernameNotFoundException(email);		
+		if(!userEntity.isEmailVerificationStatus()) throw new EmailVerificationException("Please verify your email id");		
 		return new User(userEntity.getEmail(), userEntity.getEncryptPassword(), new ArrayList<>());
 	}
 

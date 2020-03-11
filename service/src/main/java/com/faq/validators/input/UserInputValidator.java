@@ -13,6 +13,7 @@ public class UserInputValidator {
 		validateLastName(req.getLastName());
 		validateEmail(req.getEmail());
 		validatePassword(req.getPassword());
+		validateOrgName(req.getOrgName());
 	}
 
 	private static void validateFirstName(String fn) throws Exception {
@@ -49,6 +50,14 @@ public class UserInputValidator {
 			throw new UserServiceException(UserErrorMessages.REQUIRED_PASSWORD_VALUE.getErrorMessage());
 		if (!Utils.CheckPasswordPattern(pwd))
 			throw new UserServiceException(UserErrorMessages.REQUIRED_PASSWORD_PATTERN.getErrorMessage());
+	}
+	
+	private static void validateOrgName(String orgName) throws Exception {
+		if (orgName == null)
+			throw new UserServiceException(UserErrorMessages.REQUIRED_ORG_NAME_FIELD.getErrorMessage());
+		if (orgName.isEmpty())
+			throw new UserServiceException(UserErrorMessages.REQUIRED_ORG_NAME_VALUE.getErrorMessage());
+		
 	}
 
 	

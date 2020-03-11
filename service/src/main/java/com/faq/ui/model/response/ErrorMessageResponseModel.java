@@ -57,6 +57,12 @@ public class ErrorMessageResponseModel {
 		this.statusCode = statusCode;
 	}
 
+	@Override
+	public String toString() {
+		return "{\"status=\"" + status + "\", \"statusCode=\"" + statusCode + "\", error=\"" + error
+				+ "\", message=\"" + message + "\", timestamp=\"" + timestamp + "\"}";
+	}
+
 	
 
 	

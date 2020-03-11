@@ -7,7 +7,7 @@ public class UserSignUpResponseModel {
 	private String lastName;
 	private String email;
 	
-	private int roll;
+	private int role;
 
 	public String getUserId() {
 		return userId;
@@ -41,12 +41,12 @@ public class UserSignUpResponseModel {
 		this.email = email;
 	}
 
-	public int getRoll() {
-		return roll;
+	public int getRole() {
+		return role;
 	}
 
-	public void setRoll(int roll) {
-		this.roll = roll;
+	public void setRole(int role) {
+		this.role = role;
 	}
 
 }
