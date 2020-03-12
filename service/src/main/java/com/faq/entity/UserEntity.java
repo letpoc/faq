@@ -33,23 +33,17 @@ public class UserEntity implements Serializable {
 	@Column(nullable=false, length=100)
 	private String encryptPassword;
 	
-	@Column(length=30)
+	@Column(nullable=false, length=30)
 	private String emailVerificationToken;
 	
-	@Column()
-	private boolean emailVerificationStatus;
-	
-	@Column(nullable=false, length=100)
-	private String orgName;
-	
-	@Column(nullable=false, length=100)
-	private boolean orgActive;
-	
-	@Column(nullable=false, length=100)
-	private boolean orgDisable;
+	@Column(columnDefinition = "boolean default false")
+	private boolean emailVerificationStatus;	
 	
 	@Column(nullable=false, length=100)
 	private int role;
+	
+	@Column(nullable=false, length=100)
+	private String orgId;
 
 	public long getId() {
 		return id;
@@ -115,42 +109,21 @@ public class UserEntity implements Serializable {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
 
-	public String getOrgName() {
-		return orgName;
-	}
-
-	public void setOrgName(String orgName) {
-		this.orgName = orgName;
-	}
-
-	public boolean isOrgActive() {
-		return orgActive;
-	}
-
-	public void setOrgActive(boolean orgActive) {
-		this.orgActive = orgActive;
-	}
-
-	public boolean isOrgDisable() {
-		return orgDisable;
-	}
-
-	public void setOrgDisable(boolean orgDisable) {
-		this.orgDisable = orgDisable;
-	}
-
 	public int getRole() {
 		return role;
 	}
 
 	public void setRole(int role) {
 		this.role = role;
-	}	
-	
-	
-	
-	
-	
+	}
+
+	public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
 	
 
 }

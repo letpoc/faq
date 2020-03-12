@@ -40,9 +40,6 @@ public class UserServiceImpl implements UserService {
 		user.setUserId(Utils.generateUserId(30));
 		user.setRole(1);
 		user.setEmailVerificationToken(Utils.generateRandomString(30));
-		user.setOrgActive(false);
-		user.setOrgDisable(false);
-		user.setEmailVerificationStatus(false);
 		UserEntity userEntity = new UserEntity();		
 		BeanUtils.copyProperties(user, userEntity);		
 		UserEntity createUser = userRepository.save(userEntity);		
