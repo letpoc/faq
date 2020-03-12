@@ -1,6 +1,7 @@
 package com.faq.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,6 @@ public class UserController {
 		return userSignUpModelResponse;
 	}
 
-	@SuppressWarnings("unused")
 	@GetMapping("/verification/{userId}/{token}")
 	public Object userVerification(@PathVariable("userId") String userId, @PathVariable("token") String token) {
 		UserDto userDto = userService.getUserByUserId(userId);
@@ -70,5 +70,26 @@ public class UserController {
 			return new ErrorMessageResponseModel(new Date(), "The provided information does not match");
 		}		
 	}
+	
+	/*
+	 * @GetMapping("/{userId}/{orgId}/{isActive}") public
+	 * List<UserDetailsResponseModel> getUsers(@PathVariable String userId) {
+	 * 
+	 * }
+	 */
+	
+	
+	@GetMapping("/change-password/{userId}/{old}/{new}")
+	public boolean changePassword(
+			@PathVariable("userId") String userId,
+			@PathVariable("old") String oldPwd, 
+			@PathVariable("new") String newPwd) {
+		
+		
+		
+		return true;
+	}
+	
+	
 
 }

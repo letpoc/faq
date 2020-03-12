@@ -44,6 +44,9 @@ public class UserEntity implements Serializable {
 	
 	@Column(nullable=false, length=100)
 	private String orgId;
+	
+	@Column(nullable=false)
+	private boolean disable;
 
 	public long getId() {
 		return id;
@@ -123,6 +126,14 @@ public class UserEntity implements Serializable {
 
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
+	}
+
+	public boolean isDisable() {
+		return disable;
+	}
+
+	public void setDisable(boolean disable) {
+		this.disable = disable;
 	}
 	
 
