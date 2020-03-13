@@ -13,10 +13,12 @@ public enum ErrorMessageList {
 	REQUIRED_EMAIL_FIELD("Required email field"),
 	REQUIRED_EMAIL_VALUE("Required email value"),
 	REQUIRED_EMAIL_PATTERN("Email address is not valid"),
+	EMAIL_NOT_FOUND("Email address not found"),
 	
 	REQUIRED_PASSWORD_FIELD("Required email field"),
 	REQUIRED_PASSWORD_VALUE("Required email value"),
 	REQUIRED_PASSWORD_PATTERN("Password must included atleast 1 uppercase character, 1 numeric value and 1 special character"),
+	MATCHED_OLD_NEW_PASSWORD("Old and new password can not be same."),
 	
 	REQUIRED_ORG_NAME_FIELD("Required orgName field"),
 	REQUIRED_ORG_NAME_VALUE("Required orgName value"),

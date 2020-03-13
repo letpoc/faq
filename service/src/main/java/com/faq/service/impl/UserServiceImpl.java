@@ -105,7 +105,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean changePassword(String email, String oldPwd, String newPwd) {
+		if(oldPwd == newPwd) throw new ServiceException(ErrorMessageList.EMAIL_NOT_FOUND.getErrorMessage());
 		UserEntity userEntity = userRepository.findByEmail(email);
+		if(userEntity == null) throw new ServiceException(ErrorMessageList.EMAIL_NOT_FOUND.getErrorMessage());
 		System.out.println(bCryptPasswordEncoder.matches(oldPwd, userEntity.getEncryptPassword()));
 		if(bCryptPasswordEncoder.matches(oldPwd, userEntity.getEncryptPassword())) {
 			userEntity.setEncryptPassword(bCryptPasswordEncoder.encode(newPwd));
