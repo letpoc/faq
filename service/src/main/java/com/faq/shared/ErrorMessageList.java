@@ -1,6 +1,6 @@
-package com.faq.ui.model.response;
+package com.faq.shared;
 
-public enum UserErrorMessages {
+public enum ErrorMessageList {
 	
 	REQUIRED_FIRST_NAME_FIELD("Required firstName field"),
 	REQUIRED_FIRST_NAME_VALUE("Required firstName value"),
@@ -27,13 +27,16 @@ public enum UserErrorMessages {
 	NO_RECORD_FOUND("No record found"),
 	AUTHENTICATION_FAILED("Authetication failed: User ID is not correct"),
 	COULD_NOT_UPDATE_RECORD("Could not update record"),
+	COULD_NOT_UPDATE_PASSWORD("Old password and new password does not match. Please try again."),
 	COULD_NOT_DELETE_RECORD("Could not delete record"),
 	EMAIL_ADDRESS_NOT_VERIFIED("Email address not verified"),
 	NO_RECORD_FOUND_SIGN_IN("Either email/password is incorrect or this account does not exist"),
-	EMAIL_VERIFICATION_ALREADY_VERIFIED("Verification verification already verified");
+	MISMATCH_PROVIDED_INFORMAT("Provided information is mismatched."),
+	EMAIL_VERIFICATION_ALREADY_COMPLETED("Email verification is already completed");
+	
 	
 	private String errorMessage;
-	UserErrorMessages(String errorMessage) {
+	ErrorMessageList(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
 	public String getErrorMessage() {

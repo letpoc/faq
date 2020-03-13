@@ -13,5 +13,7 @@ public interface UserService extends UserDetailsService {
 	UserDto getUserByUserId(String usedId);
 	boolean isUserRecordEmpty();
 	boolean setEmailVerificationStatus(String userId);
-	
+	boolean changePassword(String email, String oldPwd, String newPwd);
 }
+
+

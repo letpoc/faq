@@ -21,13 +21,13 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.faq.SpringApplicationContext;
-import com.faq.exceptions.UserServiceException;
+import com.faq.exceptions.ServiceException;
 import com.faq.service.UserService;
+import com.faq.shared.ErrorMessageList;
 import com.faq.shared.dto.UserDto;
 import com.faq.ui.model.request.UserLoginRequestModel;
 import com.faq.ui.model.response.ErrorMessageResponseModel;
 import com.faq.ui.model.response.UserDetailsResponseModel;
-import com.faq.ui.model.response.UserErrorMessages;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 
@@ -51,7 +51,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 			return authenticationManager.authenticate(token);
 		} catch (IOException e) {
 			//UserServiceException ex = new UserServiceException("Bad Request");
-			throw new UserServiceException(req.getServerName());
+			throw new ServiceException(req.getServerName());
 		}
 	}
 

@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 
 import com.faq.entity.OrgEntity;
 import com.faq.entity.UserEntity;
-import com.faq.exceptions.EmailVerificationException;
-
+import com.faq.exceptions.ServiceException;
 import com.faq.repository.OrgRepository;
 import com.faq.repository.UserRepository;
 import com.faq.service.UserService;
+import com.faq.shared.ErrorMessageList;
 import com.faq.shared.Utils;
 import com.faq.shared.dto.UserDto;
 
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		UserEntity userEntity = userRepository.findByEmail(email);
 		if(userEntity == null) throw new UsernameNotFoundException(email);		
-		if(!userEntity.isEmailVerificationStatus()) throw new EmailVerificationException("Please verify your email id");	
+		if(!userEntity.isEmailVerificationStatus()) throw new ServiceException(ErrorMessageList.EMAIL_ADDRESS_NOT_VERIFIED.getErrorMessage());	
 		System.out.println(userEntity.getEncryptPassword());
 		return new User(userEntity.getEmail(), userEntity.getEncryptPassword(), new ArrayList<>());
 	}
@@ -101,6 +101,20 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(userEntity);
 
 		return true;
+	}
+
+	@Override
+	public boolean changePassword(String email, String oldPwd, String newPwd) {
+		UserEntity userEntity = userRepository.findByEmail(email);
+		System.out.println(bCryptPasswordEncoder.matches(oldPwd, userEntity.getEncryptPassword()));
+		if(bCryptPasswordEncoder.matches(oldPwd, userEntity.getEncryptPassword())) {
+			userEntity.setEncryptPassword(bCryptPasswordEncoder.encode(newPwd));
+			userRepository.save(userEntity);
+			return true;
+		} else {
+			return false;
+		}	
+		
 	}
 
 	
