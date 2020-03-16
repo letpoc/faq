@@ -1,59 +1,21 @@
 package com.faq.ui.model.response;
 
+import java.util.List;
+
 public class UserDetailsResponseModel {
-	private String userId;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private int role;
-
-	public int getRole() {
-		return role;
+	private long count;
+	private List<UserListResponseModel> userDetailList;
+	public long getCount() {
+		return count;
 	}
-
-	public void setRole(int role) {
-		this.role = role;
+	public void setCount(long count) {
+		this.count = count;
 	}
-
-	public String getFirstName() {
-		return firstName;
+	public List<UserListResponseModel> getUserDetailList() {
+		return userDetailList;
 	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setUserDetailList(List<UserListResponseModel> userDetailList) {
+		this.userDetailList = userDetailList;
 	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	
-	
-
-	@Override
-	public String toString() {
-		return "{\"userId\":\"" + userId + "\", \"firstName\":\"" + firstName + "\", \"lastName\":\"" + lastName + "\", \"email\":\"" + email
-				+ "\", \"role\":\"" + role + "\"}";
-	}
-	
 	
 }

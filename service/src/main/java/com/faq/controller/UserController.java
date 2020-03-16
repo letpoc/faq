@@ -27,8 +27,8 @@ import com.faq.ui.model.request.ChangePasswordRequestModel;
 import com.faq.ui.model.request.UserDetailsRequestModel;
 import com.faq.ui.model.response.ErrorMessageResponseModel;
 import com.faq.ui.model.response.SuccessMessageResponseModel;
-import com.faq.ui.model.response.UserDetailsResponseModel;
 import com.faq.ui.model.response.UserListResponseModel;
+import com.faq.ui.model.response.UserDetailsResponseModel;
 import com.faq.validators.input.UserInputValidator;
 
 @RestController
@@ -39,11 +39,11 @@ public class UserController {
 	UserService userService;
 
 	@GetMapping("/{orgId}")
-	public UserListResponseModel getUsers(
+	public UserDetailsResponseModel getUsers(
 			@RequestHeader("userId") String userId, 
 			@PathVariable String orgId,
-			@RequestParam("page") int page,
-			@RequestParam("size") int size) {
+			@RequestParam(value = "page", defaultValue="0") int page,
+			@RequestParam(value = "size", defaultValue="10") int size) {
 		UserDto userDto = userService.getUserByColumnName(EntityColumns.USERS_BY_USER_ID, userId);
 		if (userDto.getRole() == Role.SUPER_ADMIN || userDto.getRole() == Role.ADMIN) {
 			List<UserDto> userDtoList = userService.getUsers(orgId, page, size);
@@ -52,8 +52,8 @@ public class UserController {
 	}
 
 	@GetMapping(path = "/{userId}")
-	public UserDetailsResponseModel getUser(@PathVariable String userId) {
-		UserDetailsResponseModel userDetails = new UserDetailsResponseModel();
+	public UserListResponseModel getUser(@PathVariable String userId) {
+		UserListResponseModel userDetails = new UserListResponseModel();
 		UserDto userDto = userService.getUserByColumnName(EntityColumns.USERS_BY_USER_ID, userId);
 		if (userDto == null) {
 			throw new ServiceException(ErrorMessage.AUTHENTICATION_FAILED.getErrorMessage());

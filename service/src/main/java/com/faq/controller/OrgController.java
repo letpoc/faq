@@ -71,7 +71,7 @@ public class OrgController {
 
 	@GetMapping
 	public Object getOrgs(@RequestHeader("userId") String userId,
-			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "25") int size) {
 		UserDto userDto = userService.getUserByColumnName(EntityColumns.USERS_BY_USER_ID, userId);
 		OrgDetailsResponseModel orgResponse = new OrgDetailsResponseModel();

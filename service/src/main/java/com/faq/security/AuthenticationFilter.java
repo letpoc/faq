@@ -28,7 +28,7 @@ import com.faq.shared.ErrorMessage;
 import com.faq.shared.dto.UserDto;
 import com.faq.ui.model.request.LoginRequestModel;
 import com.faq.ui.model.response.ErrorMessageResponseModel;
-import com.faq.ui.model.response.UserDetailsResponseModel;
+import com.faq.ui.model.response.UserListResponseModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 
@@ -67,7 +67,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
 		// UserDto userDto = userService.getUserByEmail(userName);
 		UserDto userDto = userService.getUserByColumnName(EntityColumns.USERS_BY_EMAIL, userName);
-		UserDetailsResponseModel userResponse = new UserDetailsResponseModel();
+		UserListResponseModel userResponse = new UserListResponseModel();
 		BeanUtils.copyProperties(userDto, userResponse);
 		res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
 		res.addHeader("UserDetails", userResponse.toString());
