@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,6 +22,7 @@ import com.faq.exceptions.ServiceException;
 import com.faq.repository.OrgRepository;
 import com.faq.repository.UserRepository;
 import com.faq.service.UserService;
+import com.faq.shared.EntityColumns;
 import com.faq.shared.ErrorMessage;
 import com.faq.shared.Utils;
 import com.faq.shared.dto.UserDto;
@@ -74,24 +77,26 @@ public class UserServiceImpl implements UserService {
 		System.out.println(userEntity.getEncryptPassword());
 		return new User(userEntity.getEmail(), userEntity.getEncryptPassword(), new ArrayList<>());
 	}
-
-	@Override 
-	public UserDto getUserByEmail(String email) {				
-		UserEntity userEntity = userRepository.findByEmail(email);
+	
+	@Override
+	public UserDto getUserByColumnName(String columnName, String columnValue) {
+		UserEntity userEntity = new UserEntity();
+		switch(columnName) {
+		case EntityColumns.USERS_BY_EMAIL:
+			userEntity = userRepository.findByEmail(columnValue);
+			break;
+		case EntityColumns.USERS_BY_USER_ID:
+			userEntity = userRepository.findByUserId(columnValue);
+			break;
+		case EntityColumns.USERS_BY_ORG_ID:
+			userEntity = userRepository.findByOrgId(columnValue);
+		}
 		if(userEntity == null) return null;
 		UserDto userDto	 = new UserDto(); 
 		BeanUtils.copyProperties(userEntity, userDto);
 		return userDto;
-	}
-
-	@Override
-	public UserDto getUserByUserId(String userId) {		
-		UserEntity userEntity = userRepository.findByUserId(userId);	
-		if(userEntity == null) return null;
-		UserDto userDto = new UserDto();
-		BeanUtils.copyProperties(userEntity, userDto);		
-		return userDto;
-	}
+	}	
+	
 
 	@Override
 	public boolean isUserRecordEmpty() {
@@ -117,9 +122,33 @@ public class UserServiceImpl implements UserService {
 			return true;
 		} else {
 			return false;
-		}	
-		
+		}
 	}
+
+	@Override
+	public List<UserDto> getUsers(String orgId, int page, int size) {
+		List<UserDto> userDtoList = new ArrayList<UserDto>();
+		Pageable pageable = PageRequest.of(page, size);
+		Page<UserEntity> userPage = userRepository.findAll(pageable);
+		List<UserEntity> userEntity = userPage.getContent();
+		for(UserEntity user: userEntity) {
+			UserDto userDto = new UserDto();
+			BeanUtils.copyProperties(user, userDto);
+			userDtoList.add(userDto);
+		}
+		return userDtoList;
+	}
+	
+	/*
+	 * public long userCountByOrgId(String orgId) {
+	 * 
+	 * List<UserDto> userDtoList = new ArrayList<UserDto>(); List<UserEntity>
+	 * userEntityList = userRepository.findBy return 0; }
+	 */
+
+	
+
+	
 
 	
 	

@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.faq.SpringApplicationContext;
 import com.faq.exceptions.ServiceException;
 import com.faq.service.UserService;
+import com.faq.shared.EntityColumns;
 import com.faq.shared.ErrorMessage;
 import com.faq.shared.dto.UserDto;
 import com.faq.ui.model.request.LoginRequestModel;
@@ -64,7 +65,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 				.signWith(SignatureAlgorithm.HS512, SecurityConstants.getSecretToken()).compact();
 
 		UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
-		UserDto userDto = userService.getUserByEmail(userName);
+		// UserDto userDto = userService.getUserByEmail(userName);
+		UserDto userDto = userService.getUserByColumnName(EntityColumns.USERS_BY_EMAIL, userName);
 		UserDetailsResponseModel userResponse = new UserDetailsResponseModel();
 		BeanUtils.copyProperties(userDto, userResponse);
 		res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);

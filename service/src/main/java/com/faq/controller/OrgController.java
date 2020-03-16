@@ -18,6 +18,7 @@ import com.faq.repository.OrgRepository;
 import com.faq.repository.UserRepository;
 import com.faq.service.OrgService;
 import com.faq.service.UserService;
+import com.faq.shared.EntityColumns;
 import com.faq.shared.ErrorMessage;
 import com.faq.shared.Role;
 import com.faq.shared.SuccessMessage;
@@ -40,34 +41,55 @@ public class OrgController {
 
 	@GetMapping("/approve/{orgId}")
 	public Object approveOrg(@RequestHeader("userId") String userId, @PathVariable String orgId) {
-		UserDto userDto = userService.getUserByUserId(userId);
+		UserDto userDto = userService.getUserByColumnName(EntityColumns.USERS_BY_USER_ID, userId);
 		if (userDto.getRole() == Role.SUPER_ADMIN) {
 			orgService.approveOrg(orgId);
 			return new SuccessMessageResponseModel(SuccessMessage.APPROVED_ORG.getSuccessMessage());
 		}
 		return new ErrorMessageResponseModel(ErrorMessage.AUTHORIZATION_FAILED.getErrorMessage());
 	}
-	
+
+	@GetMapping("/disable/{orgId}")
+	public Object disableOrg(@RequestHeader("userId") String userId, @PathVariable String orgId) {
+		UserDto userDto = userService.getUserByColumnName(EntityColumns.USERS_BY_USER_ID, userId);
+		if (userDto.getRole() == Role.SUPER_ADMIN) {
+			orgService.disableOrg(orgId);
+			return new SuccessMessageResponseModel(SuccessMessage.APPROVED_ORG.getSuccessMessage());
+		}
+		return new ErrorMessageResponseModel(ErrorMessage.AUTHORIZATION_FAILED.getErrorMessage());
+	}
+
+	@GetMapping("/enable/{orgId}")
+	public Object enableOrg(@RequestHeader("userId") String userId, @PathVariable String orgId) {
+		UserDto userDto = userService.getUserByColumnName(EntityColumns.USERS_BY_USER_ID, userId);
+		if (userDto.getRole() == Role.SUPER_ADMIN) {
+			orgService.disableOrg(orgId);
+			return new SuccessMessageResponseModel(SuccessMessage.APPROVED_ORG.getSuccessMessage());
+		}
+		return new ErrorMessageResponseModel(ErrorMessage.AUTHORIZATION_FAILED.getErrorMessage());
+	}
+
 	@GetMapping
-	public OrgDetailsResponseModel getOrgs(
-			@RequestHeader("userId") String userId, 
-			@RequestParam(value="page", defaultValue="1") int page,
-			@RequestParam(value="size", defaultValue="25") int size) {
-		UserDto userDto = userService.getUserByUserId(userId);
+	public Object getOrgs(@RequestHeader("userId") String userId,
+			@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "size", defaultValue = "25") int size) {
+		UserDto userDto = userService.getUserByColumnName(EntityColumns.USERS_BY_USER_ID, userId);
 		OrgDetailsResponseModel orgResponse = new OrgDetailsResponseModel();
-		if(userDto.getRole() == Role.SUPER_ADMIN) {
+		if (userDto.getRole() == Role.SUPER_ADMIN) {
 			orgService.getOrgs(page, size);
 			List<OrgDto> orgs = orgService.getOrgs(page, size);
 			List<OrgListResponseModel> orgList = new ArrayList<>();
-			for(OrgDto orgDto: orgs) {
+			for (OrgDto orgDto : orgs) {
 				OrgListResponseModel org = new OrgListResponseModel();
 				BeanUtils.copyProperties(orgDto, org);
-				orgList.add(org);				
+				orgList.add(org);
 			}
 			orgResponse.setCount(orgService.getCount());
 			orgResponse.setOrgList(orgList);
-			
+			return orgResponse;
+		} else {
+			return new ErrorMessageResponseModel(ErrorMessage.AUTHORIZATION_FAILED.getErrorMessage());
 		}
-		return orgResponse;
 	}
+
 }

@@ -30,10 +30,11 @@ public class OrgServiceImpl implements OrgService {
 	
 	@Override
 	public List<OrgDto> getOrgs(int page, int size) {
-		List<OrgDto> orgDtoList = new ArrayList<>();
-		Pageable pageableRequest = PageRequest.of(page, size);
-		Page<OrgEntity> orgPage = orgRepository.findAll(pageableRequest);
-		List<OrgEntity> orgs = orgPage.getContent();
+		List<OrgDto> orgDtoList = new ArrayList<OrgDto>();
+		Pageable pageable = PageRequest.of(page, size);
+		Page<OrgEntity> orgEntityPage = orgRepository.findAll(pageable);
+		List<OrgEntity> orgs = orgEntityPage.getContent();		
+		System.out.println(orgEntityPage.getTotalPages());
 		for(OrgEntity orgEntity: orgs) {
 			OrgDto orgDto = new OrgDto();
 			BeanUtils.copyProperties(orgEntity, orgDto);
@@ -45,6 +46,22 @@ public class OrgServiceImpl implements OrgService {
 	@Override
 	public long getCount() {
 		return orgRepository.count();		 
+	}
+
+	@Override
+	public void disableOrg(String orgId) {
+		OrgEntity orgEntity = orgRepository.findByOrgId(orgId);
+		orgEntity.setApprove(false);
+		orgRepository.save(orgEntity);	
+		
+	}
+	
+	@Override
+	public void enableOrg(String orgId) {
+		OrgEntity orgEntity = orgRepository.findByOrgId(orgId);
+		orgEntity.setApprove(true);
+		orgRepository.save(orgEntity);	
+		
 	}
 
 }

@@ -10,7 +10,7 @@ public class OrgDto implements Serializable {
 	private String orgId;
 	private String name;
 	private Date createdAt;
-	private boolean active;
+	private boolean approve;
 	private boolean disable;
 	public String getOrgId() {
 		return orgId;
@@ -24,11 +24,12 @@ public class OrgDto implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public boolean isActive() {
-		return active;
+	
+	public boolean isApprove() {
+		return approve;
 	}
-	public void setActive(boolean active) {
-		this.active = active;
+	public void setApprove(boolean approve) {
+		this.approve = approve;
 	}
 	public boolean isDisable() {
 		return disable;
