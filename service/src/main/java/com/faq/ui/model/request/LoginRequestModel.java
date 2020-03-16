@@ -1,6 +1,6 @@
 package com.faq.ui.model.request;
 
-public class UserLoginRequestModel {
+public class LoginRequestModel {
 	
 	private String email;
 	private String password;

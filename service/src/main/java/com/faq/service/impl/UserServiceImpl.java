@@ -1,6 +1,7 @@
 package com.faq.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -19,7 +20,7 @@ import com.faq.exceptions.ServiceException;
 import com.faq.repository.OrgRepository;
 import com.faq.repository.UserRepository;
 import com.faq.service.UserService;
-import com.faq.shared.ErrorMessageList;
+import com.faq.shared.ErrorMessage;
 import com.faq.shared.Utils;
 import com.faq.shared.dto.UserDto;
 
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
 	BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public UserDto createUser(UserDto user)  {		
+	public boolean createUser(UserDto user)  {		
 		user.setEncryptPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setUserId(Utils.generateUserId(30));
 		user.setRole(1);
@@ -54,19 +55,22 @@ public class UserServiceImpl implements UserService {
 		// save details in organization table
 		OrgEntity orgEntity = new OrgEntity();		
 		orgEntity.setName(user.getOrgName());
+		orgEntity.setCreatedAt(new Date());
 		BeanUtils.copyProperties(user, orgEntity);
 		orgRepository.save(orgEntity);
 		
-		UserDto responseDto = new UserDto();	
-		BeanUtils.copyProperties(createUser, responseDto);		
-		return responseDto;		
+			
+		return true; 		
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		UserEntity userEntity = userRepository.findByEmail(email);
-		if(userEntity == null) throw new UsernameNotFoundException(email);		
-		if(!userEntity.isEmailVerificationStatus()) throw new ServiceException(ErrorMessageList.EMAIL_ADDRESS_NOT_VERIFIED.getErrorMessage());	
+		if(userEntity == null) throw new UsernameNotFoundException(email);	
+		if(userEntity == null) throw new ServiceException(ErrorMessage.COULD_NOT_FOUND_EMAIL.getErrorMessage());
+		if(!(userEntity.isEmailVerificationStatus())) throw new ServiceException(ErrorMessage.EMAIL_ADDRESS_NOT_VERIFIED.getErrorMessage());
+		OrgEntity org = orgRepository.findByOrgId(userEntity.getOrgId());
+		if(!org.isApprove()) throw new ServiceException(ErrorMessage.PENDING_APPROVAL_ORG.getErrorMessage());
 		System.out.println(userEntity.getEncryptPassword());
 		return new User(userEntity.getEmail(), userEntity.getEncryptPassword(), new ArrayList<>());
 	}
@@ -75,7 +79,7 @@ public class UserServiceImpl implements UserService {
 	public UserDto getUserByEmail(String email) {				
 		UserEntity userEntity = userRepository.findByEmail(email);
 		if(userEntity == null) return null;
-		UserDto userDto	 = new UserDto();
+		UserDto userDto	 = new UserDto(); 
 		BeanUtils.copyProperties(userEntity, userDto);
 		return userDto;
 	}
@@ -99,15 +103,13 @@ public class UserServiceImpl implements UserService {
 		UserEntity userEntity = userRepository.findByUserId(userId);
 		userEntity.setEmailVerificationStatus(true);
 		userRepository.save(userEntity);
-
 		return true;
 	}
 
 	@Override
-	public boolean changePassword(String email, String oldPwd, String newPwd) {
-		if(oldPwd == newPwd) throw new ServiceException(ErrorMessageList.EMAIL_NOT_FOUND.getErrorMessage());
-		UserEntity userEntity = userRepository.findByEmail(email);
-		if(userEntity == null) throw new ServiceException(ErrorMessageList.EMAIL_NOT_FOUND.getErrorMessage());
+	public boolean changePassword(String userId, String oldPwd, String newPwd) {		
+		UserEntity userEntity = userRepository.findByUserId(userId);
+		if(userEntity == null) throw new ServiceException(ErrorMessage.COULD_NOT_FOUND_USER_ID.getErrorMessage());
 		System.out.println(bCryptPasswordEncoder.matches(oldPwd, userEntity.getEncryptPassword()));
 		if(bCryptPasswordEncoder.matches(oldPwd, userEntity.getEncryptPassword())) {
 			userEntity.setEncryptPassword(bCryptPasswordEncoder.encode(newPwd));

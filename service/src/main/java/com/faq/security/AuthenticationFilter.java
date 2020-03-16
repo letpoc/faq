@@ -23,9 +23,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.faq.SpringApplicationContext;
 import com.faq.exceptions.ServiceException;
 import com.faq.service.UserService;
-import com.faq.shared.ErrorMessageList;
+import com.faq.shared.ErrorMessage;
 import com.faq.shared.dto.UserDto;
-import com.faq.ui.model.request.UserLoginRequestModel;
+import com.faq.ui.model.request.LoginRequestModel;
 import com.faq.ui.model.response.ErrorMessageResponseModel;
 import com.faq.ui.model.response.UserDetailsResponseModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,7 +45,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
 			throws AuthenticationException {		
 		try {					
-			UserLoginRequestModel creds = new ObjectMapper().readValue(req.getInputStream(), UserLoginRequestModel.class);
+			LoginRequestModel creds = new ObjectMapper().readValue(req.getInputStream(), LoginRequestModel.class);
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getPassword(), new ArrayList<>());
 			setDetails(req, token);
 			return authenticationManager.authenticate(token);
@@ -78,7 +78,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 			throws IOException, ServletException {
 		SecurityContextHolder.clearContext();
 		
-		ErrorMessageResponseModel error = new ErrorMessageResponseModel(new Date(), failed.getMessage());
+		ErrorMessageResponseModel error = new ErrorMessageResponseModel(failed.getMessage());
 		error.setStatus(403);
 		error.setError("Access Denied");
 		response.getWriter().write(error.toString());

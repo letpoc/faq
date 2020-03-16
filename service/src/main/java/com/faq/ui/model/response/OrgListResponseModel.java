@@ -1,40 +1,24 @@
-package com.faq.shared.dto;
+package com.faq.ui.model.response;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class OrgDto implements Serializable {
-
-	private static final long serialVersionUID = 7405896139196812846L;
-	
+public class OrgListResponseModel {
 	private String orgId;
 	private String name;
 	private Date createdAt;
-	private boolean active;
 	private boolean disable;
+	private boolean approve;
 	public String getOrgId() {
 		return orgId;
 	}
 	public void setOrgId(String orgId) {
 		this.orgId = orgId;
-	}
+	}	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	public boolean isActive() {
-		return active;
-	}
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-	public boolean isDisable() {
-		return disable;
-	}
-	public void setDisable(boolean disable) {
-		this.disable = disable;
 	}
 	public Date getCreatedAt() {
 		return createdAt;
@@ -42,9 +26,18 @@ public class OrgDto implements Serializable {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	
-	
+	public boolean isDisable() {
+		return disable;
+	}
+	public void setDisable(boolean disable) {
+		this.disable = disable;
+	}
+	public boolean isApprove() {
+		return approve;
+	}
+	public void setApprove(boolean approve) {
+		this.approve = approve;
+	}
 	
 	
 }

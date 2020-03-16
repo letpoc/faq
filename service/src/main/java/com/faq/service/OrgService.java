@@ -1,8 +1,11 @@
 package com.faq.service;
 
-import com.faq.entity.OrgEntity;
+import java.util.List;
+
 import com.faq.shared.dto.OrgDto;
 
-public interface OrgService {
-	OrgDto createOrg(OrgEntity orgEntity);
+public interface OrgService {	
+	void approveOrg(String orgId);
+	List<OrgDto> getOrgs(int page, int size);
+	long getCount();
 }

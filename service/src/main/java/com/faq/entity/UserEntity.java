@@ -36,7 +36,7 @@ public class UserEntity implements Serializable {
 	@Column(nullable=false, length=30)
 	private String emailVerificationToken;
 	
-	@Column(columnDefinition = "boolean default false")
+	@Column(nullable=false)
 	private boolean emailVerificationStatus;	
 	
 	@Column(nullable=false, length=100)
@@ -44,6 +44,10 @@ public class UserEntity implements Serializable {
 	
 	@Column(nullable=false, length=100)
 	private String orgId;
+	
+	
+	
+	
 	
 	@Column(nullable=false)
 	private boolean disable;

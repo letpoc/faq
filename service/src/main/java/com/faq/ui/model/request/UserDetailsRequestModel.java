@@ -1,12 +1,16 @@
 package com.faq.ui.model.request;
 
-public class UserSignUpRequestModel {
+import java.util.Date;
+
+public class UserDetailsRequestModel {
 	
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
 	private String orgName;
+	private Date createdAt = new Date();
+	private boolean approved = false;
 	private int roll;
 
 	public String getFirstName() {
@@ -55,6 +59,22 @@ public class UserSignUpRequestModel {
 
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
 	
 	

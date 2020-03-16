@@ -8,12 +8,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.faq.shared.dto.UserDto;
 
 public interface UserService extends UserDetailsService {	
-	UserDto createUser(UserDto userDto);
+	boolean createUser(UserDto userDto);
 	UserDto getUserByEmail(String email);
 	UserDto getUserByUserId(String usedId);
 	boolean isUserRecordEmpty();
 	boolean setEmailVerificationStatus(String userId);
-	boolean changePassword(String email, String oldPwd, String newPwd);
+	boolean changePassword(String userId, String oldPwd, String newPwd);
 }
 
 

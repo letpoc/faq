@@ -7,14 +7,13 @@ public class ErrorMessageResponseModel {
 	private String statusCode = "error";
 	private String error = "Bad Request";
 	private String message;
-	private Date timestamp;	
+	private Date timestamp = new Date();
 
 	public ErrorMessageResponseModel() {
 	}
-	
-	public ErrorMessageResponseModel(Date timestamp, String message) {
-		this.timestamp = timestamp;
-		this.message = message;		
+
+	public ErrorMessageResponseModel(String message) {
+		this.message = message;
 	}
 
 	public long getStatus() {
@@ -59,13 +58,8 @@ public class ErrorMessageResponseModel {
 
 	@Override
 	public String toString() {
-		return "{\"status=\"" + status + "\", \"statusCode=\"" + statusCode + "\", error=\"" + error
-				+ "\", message=\"" + message + "\", timestamp=\"" + timestamp + "\"}";
+		return "{\"status=\"" + status + "\", \"statusCode=\"" + statusCode + "\", error=\"" + error + "\", message=\""
+				+ message + "\", timestamp=\"" + timestamp + "\"}";
 	}
-
-	
-
-	
-	
 
 }

@@ -16,7 +16,7 @@ public class ApplicationExceptions {
 	
 	@ExceptionHandler(value = {ServiceException.class})
 	public final ResponseEntity<Object> handleServiceExcpetion(ServiceException ex, WebRequest req) {	
-		ErrorMessageResponseModel errorMessage = new ErrorMessageResponseModel(new Date(), ex.getMessage());		
+		ErrorMessageResponseModel errorMessage = new ErrorMessageResponseModel(ex.getMessage());		
 		return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}	
 	

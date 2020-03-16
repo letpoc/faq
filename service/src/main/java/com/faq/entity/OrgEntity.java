@@ -1,6 +1,7 @@
 package com.faq.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,13 +23,16 @@ public class OrgEntity implements Serializable {
 	private String orgId;
 	
 	@Column(nullable=false, length=150)
-	private String name;
-	
-	@Column(nullable=false)
-	private boolean active;
+	private String name;	
 	
 	@Column(nullable=false)
 	private boolean disable;
+	
+	@Column(nullable=false)
+	private Date createdAt;
+	
+	@Column(nullable=false, length=10)
+	private boolean approve;
 
 	public int getId() {
 		return id;
@@ -53,14 +57,7 @@ public class OrgEntity implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+	
 
 	public boolean isDisable() {
 		return disable;
@@ -68,6 +65,22 @@ public class OrgEntity implements Serializable {
 
 	public void setDisable(boolean disable) {
 		this.disable = disable;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public boolean isApprove() {
+		return approve;
+	}
+
+	public void setApprove(boolean approve) {
+		this.approve = approve;
 	}
 	
 	

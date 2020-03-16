@@ -6,12 +6,17 @@ public class SuccessMessageResponseModel {
 	private int status = 200;
 	private String statusCode = "OK";
 	private String message;
-	private Date timestamp;
+	private Date timestamp = new Date();
 	
-	public SuccessMessageResponseModel(Date date, String message) {
+	public SuccessMessageResponseModel(String message) {
 		this.message = message;
-		this.timestamp = date;
 	}
+	
+	public SuccessMessageResponseModel(String message, String userName) {
+		this.message = "Hello "+userName+". "+message;
+	}
+	
+	
 
 	public int getStatus() {
 		return status;

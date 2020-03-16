@@ -1,6 +1,7 @@
 package com.faq.shared.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class UserDto implements Serializable {
 
@@ -17,6 +18,8 @@ public class UserDto implements Serializable {
 	private int role;
 	private String orgId;
 	private String orgName;
+	private boolean approved;
+	private Date createdAt;
 	private boolean disable;
 	public String getUserId() {
 		return userId;
@@ -90,6 +93,19 @@ public class UserDto implements Serializable {
 	public void setDisable(boolean disable) {
 		this.disable = disable;
 	}
+	public boolean isApproved() {
+		return approved;
+	}
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
 	
 
 }
