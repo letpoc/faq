@@ -1,5 +1,6 @@
 package com.faq.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -22,6 +23,7 @@ import com.faq.shared.EntityColumns;
 import com.faq.shared.ErrorMessage;
 import com.faq.shared.Role;
 import com.faq.shared.SuccessMessage;
+import com.faq.shared.dto.UserDetailsDto;
 import com.faq.shared.dto.UserDto;
 import com.faq.ui.model.request.ChangePasswordRequestModel;
 import com.faq.ui.model.request.UserDetailsRequestModel;
@@ -38,17 +40,26 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@GetMapping("/{orgId}")
-	public UserDetailsResponseModel getUsers(
-			@RequestHeader("userId") String userId, 
+	@GetMapping(path = "/{orgId}")
+	public UserDetailsResponseModel getUsers(@RequestHeader("userId") String userId, 
 			@PathVariable String orgId,
-			@RequestParam(value = "page", defaultValue="0") int page,
-			@RequestParam(value = "size", defaultValue="10") int size) {
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size) {
+		UserDetailsResponseModel userDetailsResponse = new UserDetailsResponseModel();
+		List<UserListResponseModel> userListResponse = new ArrayList<UserListResponseModel>();
 		UserDto userDto = userService.getUserByColumnName(EntityColumns.USERS_BY_USER_ID, userId);
 		if (userDto.getRole() == Role.SUPER_ADMIN || userDto.getRole() == Role.ADMIN) {
-			List<UserDto> userDtoList = userService.getUsers(orgId, page, size);
-		}
-		return null;
+			UserDetailsDto userDetails = userService.getUsers(orgId, page, size);			
+			//BeanUtils.copyProperties(userDtoList, userDetailsResponse);
+			for(UserDto user: userDetails.getUserListDto()) {
+				UserListResponseModel userList = new UserListResponseModel();
+				BeanUtils.copyProperties(user, userList);
+				userListResponse.add(userList);
+			}			
+			userDetailsResponse.setUserDetailList(userListResponse);
+			userDetailsResponse.setCount(userDetails.getCount());
+		}		
+		return userDetailsResponse;
 	}
 
 	@GetMapping(path = "/{userId}")

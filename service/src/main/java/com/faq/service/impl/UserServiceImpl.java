@@ -25,6 +25,7 @@ import com.faq.service.UserService;
 import com.faq.shared.EntityColumns;
 import com.faq.shared.ErrorMessage;
 import com.faq.shared.Utils;
+import com.faq.shared.dto.UserDetailsDto;
 import com.faq.shared.dto.UserDto;
 
 
@@ -88,8 +89,6 @@ public class UserServiceImpl implements UserService {
 		case EntityColumns.USERS_BY_USER_ID:
 			userEntity = userRepository.findByUserId(columnValue);
 			break;
-		case EntityColumns.USERS_BY_ORG_ID:
-			userEntity = userRepository.findByOrgId(columnValue);
 		}
 		if(userEntity == null) return null;
 		UserDto userDto	 = new UserDto(); 
@@ -126,36 +125,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDto> getUsers(String orgId, int page, int size) {
-		List<UserDto> userDtoList = new ArrayList<UserDto>();
+	public UserDetailsDto getUsers(String orgId, int page, int size) {
+		UserDetailsDto userDetailsDto = new UserDetailsDto();
+		List<UserDto> userListDto = new ArrayList<UserDto>();
 		Pageable pageable = PageRequest.of(page, size);
-		Page<UserEntity> userPage = userRepository.findAll(pageable);
+		Page<UserEntity> userPage = userRepository.findAllByOrgId(orgId, pageable);
 		List<UserEntity> userEntity = userPage.getContent();
 		for(UserEntity user: userEntity) {
 			UserDto userDto = new UserDto();
 			BeanUtils.copyProperties(user, userDto);
-			userDtoList.add(userDto);
+			userListDto.add(userDto);
 		}
-		return userDtoList;
+		List<UserEntity> userCount = userRepository.findByOrgId(orgId);
+		userDetailsDto.setUserListDto(userListDto);
+		userDetailsDto.setCount(userCount.size());
+		return userDetailsDto;
 	}
 	
-	/*
-	 * public long userCountByOrgId(String orgId) {
-	 * 
-	 * List<UserDto> userDtoList = new ArrayList<UserDto>(); List<UserEntity>
-	 * userEntityList = userRepository.findBy return 0; }
-	 */
-
-	
-
-	
-
-	
-	
-
-	
-
-	
-
 
 }
